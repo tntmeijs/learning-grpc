@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 ### ################################################################## ###
 ###                                                                    ###
 ### This script ensures the services' Protobuf files are kept in sync. ###
@@ -8,6 +10,15 @@
 ###                                                                    ###
 ### ################################################################## ###
 
-#!/usr/bin/env bash
+# The Java service uses a Gradle plugin to automatically generate code from Protobuf files
+# Simply copying the file into the correct directory suffices
+rsync -a --delete proto ./java-service/app/src/main
 
-rsync -a --delete proto java-service/app/src/main
+# In the Python service, Protobuf files need to be generated manually
+rm -rf ./python-service/proto
+mkdir -p ./python-service/proto
+python3 -m grpc_tools.protoc\
+    --proto_path=./proto\
+    --python_out=./python-service/proto\
+    --grpc_python_out=./python-service/proto\
+    ./proto/*.proto
