@@ -1,0 +1,13 @@
+syntax = "proto3";
+option java_package = "dev.tahar.grpc";
+
+service HelloWorld {
+  // Just sends a simple greeting
+  rpc Greet(Empty) returns (Greeting) {}
+}
+
+message Empty {}
+
+message Greeting {
+  string message = 1;
+}
