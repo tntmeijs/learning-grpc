@@ -18,7 +18,7 @@ rsync -a --delete proto ./java-service/app/src/main
 rm -rf ./python-service/proto
 mkdir -p ./python-service/proto
 python3 -m grpc_tools.protoc\
-    --proto_path=./proto\
-    --python_out=./python-service/proto\
-    --grpc_python_out=./python-service/proto\
+    -Iproto/dev/tahar=./proto\
+    --python_out=./python-service\
+    --grpc_python_out=./python-service\
     ./proto/*.proto
